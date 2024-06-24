@@ -34,11 +34,12 @@ class Server:
         return (start, end)
 
     def get_page(self, page: int = 1, page_size: int = 10) -> List[List]:
-        """get_page
+        """Retrieves a page of data.
         """
         assert type(page) == int and type(page_size) == int
         assert page > 0 and page_size > 0
         start, end = index_range(page, page_size)
-        if start > len(dataset(self)):
+        data = self.dataset()
+        if start > len(data):
             return []
-        return (dataset(self))[start:end]
+        return data[start:end]
