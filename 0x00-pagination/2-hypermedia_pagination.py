@@ -1,19 +1,17 @@
 #!/usr/bin/env python3
-"""
-Simple pagination
+"""Task 2: Hypermedia pagination
 """
 
 import csv
 import math
-from typing import List, Tuple
+from typing import Dict, List, Tuple
 
 
 def index_range(page: int, page_size: int) -> Tuple[int, int]:
-    """ index_range """
+    """Retrieves the index range from a given page and page size.
+    """
 
-    start = (page - 1) * page_size
-    end = page * page_size
-    return (start, end)
+    return ((page - 1) * page_size, ((page - 1) * page_size) + page_size)
 
 
 class Server:
@@ -36,21 +34,22 @@ class Server:
         return self.__dataset
 
     def get_page(self, page: int = 1, page_size: int = 10) -> List[List]:
-        """get_page
+        """Retrieves a page of data.
         """
         assert type(page) == int and type(page_size) == int
         assert page > 0 and page_size > 0
         start, end = index_range(page, page_size)
-        if start > len(self.dataset()):
+        data = self.dataset()
+        if start > len(data):
             return []
         return data[start:end]
 
     def get_hyper(self, page: int = 1, page_size: int = 10) -> Dict:
-        """get_hyper
+        """Retrieves information about a page.
         """
-        start, end = index_range(page, page_size)
         data = self.get_page(page, page_size)
-        total_pages = math.ceil(len(self.dataset()) / page_size)
+        start, end = index_range(page, page_size)
+        total_pages = math.ceil(len(self.__dataset) / page_size)
         return {
             'page_size': len(data),
             'page': page,
