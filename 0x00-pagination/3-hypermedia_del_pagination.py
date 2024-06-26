@@ -33,13 +33,19 @@ class Server:
         """
         if self.__indexed_dataset is None:
             dataset = self.dataset()
-            self.__indexed_dataset = {i: dataset[i] for i in range(len(dataset))}
+            self.__indexed_dataset = {
+                i: dataset[i]
+                for i in range(len(dataset))
+            }
         return self.__indexed_dataset
 
-    def get_hyper_index(self, index: int = None, page_size: int = 10) -> Dict[str, Any]:
+    def get_hyper_index(self, index: int = None, page_size: int = 10
+                        ) -> Dict[str, Any]:
         """Return a page of the dataset and the next index to query with"""
-        assert isinstance(index, int) and 0 <= index < len(self.indexed_dataset())
-        assert isinstance(page_size, int) and page_size > 0
+        assert isinstance(index, int)
+        assert 0 <= index < len(self.indexed_dataset())
+        assert isinstance(page_size, int)
+        assert page_size > 0
 
         data = []
         current_index = index
@@ -50,7 +56,8 @@ class Server:
                 data.append(indexed_dataset[current_index])
             current_index += 1
 
-        next_index = current_index if current_index < len(indexed_dataset) else None
+        next_index = (current_index if current_index < len(indexed_dataset)
+                      else None)
 
         return {
             "index": index,
