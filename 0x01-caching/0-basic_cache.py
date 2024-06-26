@@ -3,8 +3,12 @@
 """Task 0
 """
 
+from importlib import import_module
 
-from base_caching import BaseCaching
+# Assuming 'base_caching' is the module you want to import
+module_name = 'base_caching'
+module = import_module(module_name)
+BaseCaching = module.BaseCaching
 
 
 class BasicCache(BaseCaching):
